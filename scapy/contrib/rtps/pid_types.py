@@ -125,7 +125,7 @@ class PIDPacketBase(Packet):
         StrLenField(
             "parameterData",
             "",
-            length_from=lambda x: x.parameterLength,
+            length_from=lambda p: p.parameterLength,
             max_length=STR_MAX_LEN,
         ),
     ]
@@ -139,7 +139,7 @@ class PID_PAD(PIDPacketBase):
     fields_desc = [
         StrLenField(
             "parameterId", "",
-            length_from=lambda x: 2,
+            length_from=lambda p: 2,
             max_length=STR_MAX_LEN)
     ]
 
@@ -249,7 +249,7 @@ class PID_PROTOCOL_VERSION(PIDPacketBase):
         StrLenField(
             "padding",
             "",
-            length_from=lambda x: x.parameterLength - 2,
+            length_from=lambda p: p.parameterLength - 2,
             max_length=STR_MAX_LEN,
         ),
     ]
@@ -272,7 +272,7 @@ class PID_VENDOR_ID(PIDPacketBase):
         StrLenField(
             "padding",
             "",
-            length_from=lambda x: x.parameterLength - 2,
+            length_from=lambda p: p.parameterLength - 2,
             max_length=STR_MAX_LEN,
         ),
     ]
@@ -311,7 +311,7 @@ class PID_MULTICAST_LOCATOR(PIDPacketBase):
         StrLenField(
             "parameterData",
             "",
-            length_from=lambda x: x.parameterLength,
+            length_from=lambda p: p.parameterLength,
             max_length=STR_MAX_LEN,
         ),
     ]

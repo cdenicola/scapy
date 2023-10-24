@@ -157,7 +157,7 @@ class ParticipantMessageDataPacket(EPacket):
         StrLenField(
             "serializedData",
             "",
-            length_from=lambda x: x.sequenceSize * 4,
+            length_from=lambda pkt: pkt.sequenceSize * 4,
             max_length=STR_MAX_LEN,
         ),
     ]
