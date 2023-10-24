@@ -270,6 +270,13 @@ class EndpointFlagsPacket(Packet):
 
 
 class ProtocolVersionPacket(Packet):
+    """
+    ProtocolVersion, overall structure as per DDSI-RTPS v2.3, section 9.4.2.4
+    0...2...........8...............16
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    |  octet major  |  octet minor  |
+    +---------------+---------------+
+    """
     name = "RTPS Protocol Version"
     fields_desc = [ByteField("major", 0), ByteField("minor", 0)]
 
@@ -300,10 +307,15 @@ _rtps_vendor_ids = {
 
 
 class VendorIdPacket(Packet):
+    """
+    VendorId, overall structure as per DDSI-RTPS v2.3, section 9.4.2.3
+    0...2...........8...............16
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    |       octet vendorId[2]       |
+    +---------------+---------------+
+    """
     name = "RTPS Vendor ID"
     fields_desc = [
-        # ByteField("major", 0),
-        # ByteField("minor", 0),
         EnumField(
             name="vendor_id",
             default=0,
