@@ -431,6 +431,19 @@ class PID_PARTICIPANT_BUILTIN_ENDPOINTS(PIDPacketBase):
 
 class PID_PARTICIPANT_LEASE_DURATION(PIDPacketBase):
     name = "PID_PARTICIPANT_LEASE_DURATION"
+    fields_desc = [
+        EField(
+            ParameterIdField("parameterId", 0),
+            endianness=FORMAT_LE,
+            endianness_from=None,
+        ),
+        EField(
+            ShortField("parameterLength", 0),
+            endianness=FORMAT_LE,
+            endianness_from=None
+        ),
+        PacketField("lease_duration", "", LeaseDurationPacket),
+    ]
 
 
 class PID_CONTENT_FILTER_PROPERTY(PIDPacketBase):
@@ -481,6 +494,19 @@ class PID_GROUP_ENTITYID(PIDPacketBase):
 
 class PID_BUILTIN_ENDPOINT_SET(PIDPacketBase):
     name = "PID_BUILTIN_ENDPOINT_SET"
+    # fields_desc = [
+    #     EField(
+    #         ParameterIdField("parameterId", 0),
+    #         endianness=FORMAT_LE,
+    #         endianness_from=None,
+    #     ),
+    #     EField(
+    #         ShortField("parameterLength", 0),
+    #         endianness=FORMAT_LE,
+    #         endianness_from=None
+    #     ),
+    #     PacketField("flags", "", EndpointFlagsPacket),
+    # ]
 
 
 class PID_PROPERTY_LIST(PIDPacketBase):

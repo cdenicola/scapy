@@ -114,7 +114,10 @@ pkt3 = RTPS(
                         PID_PARTICIPANT_LEASE_DURATION(
                             parameterId=2,
                             parameterLength=8,
-                            parameterData=b"\n\x00\x00\x00\x00\x00\x00\x00",
+                            lease_duration=LeaseDurationPacket(
+                                seconds=167772160,
+                                fraction=0,
+                            ),
                         ),
                         PID_PARTICIPANT_GUID(
                             parameterId=80,
@@ -356,7 +359,10 @@ p1 = RTPS(
                         PID_PARTICIPANT_LEASE_DURATION(
                             parameterId=2,
                             parameterLength=8,
-                            parameterData=b"\x06\x00\x00\x00\xff\xff\xff\x7f",
+                            lease_duration=LeaseDurationPacket(
+                                seconds=100663296,
+                                fraction=4294967167,
+                            ),
                         ),
                         PID_PLUGIN_PROMISCUITY_KIND(
                             parameterId=32769, parameterLength=4, promiscuityKind=65535
