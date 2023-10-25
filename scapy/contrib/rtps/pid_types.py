@@ -442,7 +442,7 @@ class PID_PARTICIPANT_LEASE_DURATION(PIDPacketBase):
             endianness=FORMAT_LE,
             endianness_from=None
         ),
-        PacketField("lease_duration", "", LeaseDurationPacket),
+        PacketField("leaseDuration", "", LeaseDurationPacket),
     ]
 
 
@@ -539,6 +539,23 @@ class PID_DOMAIN_TAG(PIDPacketBase):
 
 class PID_DOMAIN_ID(PIDPacketBase):
     name = "PID_DOMAIN_ID"
+    fields_desc = [
+        EField(
+            ParameterIdField("parameterId", 0),
+            endianness=FORMAT_LE,
+            endianness_from=None,
+        ),
+        EField(
+            ShortField("parameterLength", 0),
+            endianness=FORMAT_LE,
+            endianness_from=None
+        ),
+        EField(
+            IntField("domainId", 0),
+            endianness=FORMAT_LE,
+            endianness_from=None
+        ),
+    ]
 
 
 class PID_UNKNOWN(PIDPacketBase):
@@ -640,7 +657,7 @@ class PID_REACHABILITY_LEASE_DURATION(PIDPacketBase):
             endianness=FORMAT_LE,
             endianness_from=None
         ),
-        PacketField("lease_duration", "", LeaseDurationPacket),
+        PacketField("leaseDuration", "", LeaseDurationPacket),
     ]
 
 

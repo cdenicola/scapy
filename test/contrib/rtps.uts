@@ -114,7 +114,7 @@ pkt3 = RTPS(
                         PID_PARTICIPANT_LEASE_DURATION(
                             parameterId=2,
                             parameterLength=8,
-                            lease_duration=LeaseDurationPacket(
+                            leaseDuration=LeaseDurationPacket(
                                 seconds=167772160,
                                 fraction=0,
                             ),
@@ -137,7 +137,7 @@ pkt3 = RTPS(
                         PID_DOMAIN_ID(
                             parameterId=15,
                             parameterLength=4,
-                            parameterData=b"\x00\x00\x00\x00",
+                            domainId=0,
                         ),
                         PID_DEFAULT_UNICAST_LOCATOR(
                             parameterId=49,
@@ -359,7 +359,7 @@ p1 = RTPS(
                         PID_PARTICIPANT_LEASE_DURATION(
                             parameterId=2,
                             parameterLength=8,
-                            lease_duration=LeaseDurationPacket(
+                            leaseDuration=LeaseDurationPacket(
                                 seconds=100663296,
                                 fraction=4294967167,
                             ),
@@ -373,9 +373,7 @@ p1 = RTPS(
                             parameterData=b'"\x00\x00\x00RTI Data Distribution Service Spy\x00\x00\x00',
                         ),
                         PID_DOMAIN_ID(
-                            parameterId=15,
-                            parameterLength=4,
-                            parameterData=b"\x00\x00\x00\x00",
+                            parameterId=15, parameterLength=4, domainId=0
                         ),
                         PID_RTI_DOMAIN_ID(
                             parameterId=32783, parameterLength=4, domainId=0
@@ -394,7 +392,7 @@ p1 = RTPS(
                         PID_REACHABILITY_LEASE_DURATION(
                             parameterId=32790,
                             parameterLength=8,
-                            lease_duration=LeaseDurationPacket(
+                            leaseDuration=LeaseDurationPacket(
                                 seconds=268435456, fraction=0
                             ),
                         ),
