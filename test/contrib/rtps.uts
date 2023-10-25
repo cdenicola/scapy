@@ -132,7 +132,7 @@ pkt3 = RTPS(
                         PID_BUILTIN_ENDPOINT_SET(
                             parameterId=88,
                             parameterLength=4,
-                            parameterData=b"?\x0c\x00\x00",
+                            flags=0xc3f,
                         ),
                         PID_DOMAIN_ID(
                             parameterId=15,
@@ -286,7 +286,7 @@ p1 = RTPS(
                         PID_BUILTIN_ENDPOINT_SET(
                             parameterId=88,
                             parameterLength=4,
-                            parameterData=b"?\x0c\x00\x00",
+                            flags=0xc3f,
                         ),
                         PID_BUILTIN_ENDPOINT_QOS(
                             parameterId=119,

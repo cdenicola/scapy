@@ -494,19 +494,23 @@ class PID_GROUP_ENTITYID(PIDPacketBase):
 
 class PID_BUILTIN_ENDPOINT_SET(PIDPacketBase):
     name = "PID_BUILTIN_ENDPOINT_SET"
-    # fields_desc = [
-    #     EField(
-    #         ParameterIdField("parameterId", 0),
-    #         endianness=FORMAT_LE,
-    #         endianness_from=None,
-    #     ),
-    #     EField(
-    #         ShortField("parameterLength", 0),
-    #         endianness=FORMAT_LE,
-    #         endianness_from=None
-    #     ),
-    #     PacketField("flags", "", EndpointFlagsPacket),
-    # ]
+    fields_desc = [
+        EField(
+            ParameterIdField("parameterId", 0),
+            endianness=FORMAT_LE,
+            endianness_from=None,
+        ),
+        EField(
+            ShortField("parameterLength", 0),
+            endianness=FORMAT_LE,
+            endianness_from=None
+        ),
+        EField(
+            XIntField("flags", 0),
+            endianness=FORMAT_LE,
+            endianness_from=None
+        )
+    ]
 
 
 class PID_PROPERTY_LIST(PIDPacketBase):
