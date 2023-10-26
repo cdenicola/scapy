@@ -30,10 +30,12 @@ from scapy.contrib.rtps.common_types import (
     STR_MAX_LEN,
     EField,
     EPacket,
+    ExplicitLenStrPacket,
     GUIDPacket,
     LeaseDurationPacket,
     LocatorPacket,
     ProductVersionPacket,
+    PropertyListItemPacket,
     ProtocolVersionPacket,
     TransportInfoPacket,
     VendorIdPacket,
@@ -515,6 +517,32 @@ class PID_BUILTIN_ENDPOINT_SET(PIDPacketBase):
 
 class PID_PROPERTY_LIST(PIDPacketBase):
     name = "PID_PROPERTY_LIST"
+    fields_desc = [
+        EField(
+            ParameterIdField("parameterId", 0),
+            endianness=FORMAT_LE,
+            endianness_from=None,
+        ),
+        EField(
+            ShortField("parameterLength", 0),
+            endianness=FORMAT_LE,
+            endianness_from=None
+        ),
+        EField(
+            IntField("propertyCount", 0),
+            endianness=FORMAT_LE,
+            endianness_from=None
+        ),
+        # EField(
+            PacketListField("properties", None,
+                PropertyListItemPacket,
+                # count_from=lambda p: p.propertyCount,
+                length_from=lambda p: p.parameterLength-4
+            ),
+        #     endianness=FORMAT_LE,
+        #     endianness_from=None
+        # )
+    ]
 
 
 class PID_TYPE_MAX_SIZE_SERIALIZED(PIDPacketBase):

@@ -25,11 +25,13 @@ from scapy.fields import (
     PacketField,
     PacketListField,
     ReversePadField,
+    ShortField,
     StrField,
     StrLenField,
     UUIDField,
     XIntField,
     XStrFixedLenField,
+    XStrLenField,
 )
 from scapy.packet import Packet
 
@@ -336,3 +338,65 @@ class LeaseDurationPacket(Packet):
 
     def extract_padding(self, p):
         return b"", p
+
+
+class ExplicitLenStrPacket(Packet):
+    name = "Property List Key"
+    fields_desc = [
+        EField(
+            IntField("len", 0),
+            endianness=FORMAT_LE,
+            endianness_from=None
+        ),
+        StrLenField(
+            "str",
+            "",
+            length_from=lambda p: p.len,
+            max_length=STR_MAX_LEN,
+        ),
+    ]
+
+    def extract_padding(self, p):
+        return "", p
+
+
+class PropertyListItemPacket(Packet):
+    name = "Property List Item"
+    fields_desc = [
+        # PacketField("key", "", ExplicitLenStrPacket),
+        # PacketField("value", "", ExplicitLenStrPacket),
+        # Key
+        EField(
+            IntField("keyLen", 0),
+            endianness=FORMAT_LE,
+            endianness_from=None
+        ),
+        StrLenField(
+            "key",
+            "",
+            length_from=lambda p: p.keyLen,
+            max_length=STR_MAX_LEN,
+        ),
+        XStrLenField(
+            "keyPad",
+            "",
+            length_from=lambda p: 0 if p.keyLen % 4 == 0 else 4 - (p.keyLen % 4),
+        ),
+        # Value
+        EField(
+            IntField("valueLen", 0),
+            endianness=FORMAT_LE,
+            endianness_from=None
+        ),
+        StrLenField(
+            "value",
+            "",
+            length_from=lambda p: p.valueLen,
+            max_length=STR_MAX_LEN,
+        ),
+        XStrLenField(
+            "valuePad",
+            "",
+            length_from=lambda p: 0 if p.valueLen % 4 == 0 else 4 - (p.valueLen % 4),
+        ),
+    ]
