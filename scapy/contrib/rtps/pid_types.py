@@ -535,8 +535,8 @@ class PID_PROPERTY_LIST(PIDPacketBase):
         ),
         # EField(
             PacketListField("properties", None,
-                PropertyListItemPacket,
-                # count_from=lambda p: p.propertyCount,
+                pkt_cls=PropertyListItemPacket,
+                count_from=lambda p: p.propertyCount,
                 length_from=lambda p: p.parameterLength-4
             ),
         #     endianness=FORMAT_LE,
