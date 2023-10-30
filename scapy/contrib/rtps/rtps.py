@@ -445,8 +445,79 @@ class RTPSSubMessage_PAD(EPacket):
 
 
 class RTPSSubMessage_DATA_FRAG(EPacket):
+    """
+    0...2...........8...............16.............24...............32
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    |   DATA_FRAG   |X|X|X|X|N|K|Q|E|      octetsToNextHeader       |
+    +---------------+---------------+---------------+---------------+
+    |       Flags extraFlags        |      octetsToInlineQos        |
+    +---------------+---------------+---------------+---------------+
+    | EntityId readerEntityId                                       |
+    +---------------+---------------+---------------+---------------+
+    | EntityId writerEntityId                                       |
+    +---------------+---------------+---------------+---------------+
+    |                                                               |
+    + SequenceNumber writerSeqNum                                   +
+    |                                                               |
+    +---------------+---------------+---------------+---------------+
+    | FragmentNumber fragmentStartingNum                            |
+    +---------------+---------------+---------------+---------------+
+    | ushort fragmentsInSubmessage  |      ushort fragmentSize      |
+    +---------------+---------------+---------------+---------------+
+    | unsigned long sampleSize                                      |
+    +---------------+---------------+---------------+---------------+
+    |                                                               |
+    ~ ParameterList inlineQos [only if Q==1]                        ~
+    |                                                               |
+    +---------------+---------------+---------------+---------------+
+    |                                                               |
+    ~ SerializedData serializedData                                 ~
+    |                                                               |
+    +---------------+---------------+---------------+---------------+
+    """
     name = "RTPS DATA_FRAG (0x16)"
-    fields_desc = [StrField("uninterpreted_data", 0)]
+    fields_desc = [
+        XByteField("submessageId", 0x16),
+        XByteField("submessageFlags", 0x00), # X|X|X|X|N|K|Q|E
+        EField(ShortField("octetsToNextHeader", 0),
+               endianness_from=e_flags),
+        XNBytesField("extraFlags", 0x0000, 2),
+        EField(ShortField("octetsToInlineQoS", 0),
+               endianness_from=e_flags),
+        X3BytesField("readerEntityIdKey", 0),
+        XByteField("readerEntityIdKind", 0),
+        X3BytesField("writerEntityIdKey", 0),
+        XByteField("writerEntityIdKind", 0),
+        EField(IntField("writerSeqNumHi", 0),
+               endianness_from=e_flags),
+        EField(IntField("writerSeqNumLow", 0),
+               endianness_from=e_flags),
+        # FRAGMENT FIELDS
+        EField(IntField("fragmentStartingNum", 0),
+               endianness_from=e_flags),
+        EField(ShortField("fragmentsInSubmessage", 0),
+               endianness_from=e_flags),
+        EField(ShortField("fragmentSize", 0),
+               endianness_from=e_flags),
+        EField(IntField("sampleSize", 0),
+               endianness_from=e_flags),
+        # -------------------------------------
+        ConditionalField(
+            InlineQoSPacketField("inlineQoS", "", InlineQoSPacket),
+            lambda pkt: pkt.submessageFlags & 0x02 == 0x02,
+        ),
+        # ConditionalField(
+        #     DataPacketField("key", "", DataPacket,
+        #                     endianness_from=e_flags),
+        #     lambda pkt: pkt.submessageFlags & 0x04 == 0x04 and pkt.fragmentStartingNum == 1,
+        # ),
+        # ConditionalField(
+        #     DataPacketField("data", "", DataPacket,
+        #                     endianness_from=e_flags),
+        #     lambda pkt: pkt.submessageFlags & 0b00000100 == 0b00000100 and pkt.fragmentStartingNum == 1,
+        # ),
+        StrField("frag", 0),
+    ]
 
 
 class RTPSSubMessage_SEC_PREFIX(EPacket):
